@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-
 namespace counter {
 namespace category {
 
@@ -158,7 +157,7 @@ public:
 
 	typedef ::counter::statistics statistics_type;
 
-	typedef std::vector< uint64_t > container_type;
+	typedef std::vector< key_type > container_type;
 
 	statistics() {
 		m_container.resize(::counter::constant::_last, 0);
@@ -166,11 +165,15 @@ public:
 
 	~statistics() {}
 
+	counter_type operator[](key_type const& key)const {
+		return m_container[ key ];
+	}
+
 	void set(key_type const& key, counter_type const& counter) {
 		m_container[ key ] = counter;
 	}
 
-	counter_type const& get(key_type const& key) {
+	counter_type const& get(key_type const& key)const {
 		return m_container[ key ];
 	}
 

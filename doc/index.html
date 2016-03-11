@@ -73,13 +73,13 @@ int main( int argc, char *argv[] )
   a = a + b + - c;
 
   std::cout &lt;&lt; "Number of calls of assignment operator: " 
-            &lt;&lt; MyDouble::statistics().container()[ ::counter::constant::operator_assign ]
+            &lt;&lt; MyDouble::statistics()[ ::counter::constant::operator_assign ]
             &lt;&lt; std::endl
             &lt;&lt; "Number of calls of binary plus operator: " 
-            &lt;&lt; MyDouble::statistics().container()[ ::counter::constant::operator_plus_full ]
+            &lt;&lt; MyDouble::statistics()[ ::counter::constant::operator_plus_full ]
             &lt;&lt; std::endl
             &lt;&lt; "Number of calls of unary minus: " 
-            &lt;&lt; MyDouble::statistics().container()[ ::counter::constant::operator_minus_unary ]
+            &lt;&lt; MyDouble::statistics()[ ::counter::constant::operator_minus_unary ]
             &lt;&lt; std::endl;
 
   return EXIT_SUCCESS;

@@ -32,13 +32,13 @@ int main( int argc, char *argv[] )
   a = a + b + - c;
 
   std::cout << "Number of calls of assignment operator: " 
-            << MyDouble::statistics().container()[ ::counter::constant::operator_assign ]
+            << MyDouble::statistics()[ ::counter::constant::operator_assign ]
             << std::endl
             << "Number of calls of binary plus operator: " 
-            << MyDouble::statistics().container()[ ::counter::constant::operator_plus_full ]
+            << MyDouble::statistics()[ ::counter::constant::operator_plus_full ]
             << std::endl
             << "Number of calls of unary minus: " 
-            << MyDouble::statistics().container()[ ::counter::constant::operator_minus_unary ]
+            << MyDouble::statistics()[ ::counter::constant::operator_minus_unary ]
             << std::endl;
 
   return EXIT_SUCCESS;
