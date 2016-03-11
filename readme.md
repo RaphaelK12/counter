@@ -1,7 +1,7 @@
 #Count every usage of arithmetic/mathematic functions
 
 - Status:
- - Work In progress
+ - Ready for use!
 
 Key features:
 - Headers only
