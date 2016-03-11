@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Dejan D. M. Milosavljevic">
+		<!-- <link rel="icon" href="../favicon.ico" type="image/ico"> -->
+		<title>Counter: (Dis)Integration</title>
+	</head>
+	<body>
+     <h1 align="center">Counter: (Dis)Integration</h1>
+
+		<dl>
+			<dt>Steps</dt>
+			<dd>
+				<ol>
+					<li>Ensure that you every number like type( e.g. int, float, etc ) is behind some typedef.<br></li>
+					<li>Make two or more empty struct. <br></li>
+					<li>
+						Instead original type-number( int, float, etc ) use:<br>
+						<blockquote><code> ::counter::number&lt; <i>number</i>, <i>empty_struct</i> &gt; </code></blockquote>
+						Where <i>number</i> is: int, float, etc.<br>
+						Where <i>empty_struct</i> is some of previously created emptu struct.<br>
+					</li>
+				</ol>
+			</dd>
+			<dt>Example:</dt>
+			<dd>
+				<dl>
+					<dt>Original code</dt>
+					<dd>
+					 <code>
+					 	void myFunction( <b>float</b> f ){ ... }<br>
+						void myProcess( <b>float</b> f ){ ... }
+					 </code>
+					</dd>
+					<dt>typedefed floats</dt>
+					<dd>
+					 <code>
+						typedef <b>float</b> MyFirstFloat;<br>
+						typedef <b>float</b> MySecondFloat;<br>
+						void myFunction( <b>MyFirstFloat</b> f ){ ... }<br>
+						void myProcess( <b>MySecondFloat</b> f ){ ... }
+					 </code>
+					</dd>
+					<dt>Add empty class</dt>
+					<dd>
+					 <code>
+					 	struct MyFirstCategory{};<br>
+					 	struct MySecondCategory{};<br>
+						typedef <b>float</b> MyFirstFloat;<br>
+						typedef <b>float</b> MySecondFloat;<br>
+						void myFunction( <b>MyFirstFloat</b> f ){ ... }<br>
+						void myProcess( <b>MySecondFloat</b> f ){ ... }
+					 </code>
+					</dd>
+
+					<dt>Integrate</dt>
+					<dd>
+						<code>
+							struct MyFirstCategory{};<br>
+							struct MySecondCategory{};<br>
+							typedef <b>::counter::number&lt;float, MyFirstCategory&gt;</b> MyFirstFloat;<br>
+							typedef <b>::counter::number&lt;float, MySecondCategory&gt;</b> MySecondFloat;<br>
+							void myFunction( <b>MyFirstFloat</b> f ){ ... }<br>
+							void myProcess( <b>MySecondFloat</b> f ){ ... }
+						</code>
+					</dd>
+					<dt>Disintegration</dt>
+					<dd>
+						<code>
+							struct MyFirstCategory{};<br>
+							struct MySecondCategory{};<br>
+							typedef <b>float</b> MyFirstFloat;<br>
+							typedef <b>float</b> MySecondFloat;<br>
+							void myFunction( <b>MyFirstFloat</b> f ){ ... }<br>
+							void myProcess( <b>MySecondFloat</b> f ){ ... }
+						</code>
+					</dd>
+				</ol>	
+
+
+			</dd>
+		</dl>
+
+
+		<hr>
+	</body>
+</html>

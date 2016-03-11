@@ -4,10 +4,8 @@
 
 #include "counter/counter.hpp"
 
-struct MyCategory{};
-
-typedef ::counter::number< MyCategory, float> MyFloat;
-typedef ::counter::number< MyCategory, int> MyInt;
+typedef ::counter::number< float > MyFloat;
+typedef ::counter::number< int   > MyInt;
 
 
 void print( ::counter::statistics const& stat )

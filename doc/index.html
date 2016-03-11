@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Dejan D. M. Milosavljevic">
+		<!-- <link rel="icon" href="../favicon.ico" type="image/ico"> -->
+		<title>Counter</title>
+	</head>
+<body>
+	<h1 align="center">Counter</h1>
+
+	<dl>
+		<dt><h3>TOC</h3></dt>
+		<dd>
+			<ul>
+				<li><a href="#Description">Description</a></li>
+				<li><a href="#Install">Install</a></li>
+				<li><a href="#API">API</a></li>
+				<li><a href="#Using">Using</a></li>
+				<li><a href="#Examples">Examples</a></li>
+				<li><a href="#FAQ">FAQ</a></li>
+			</ul>
+
+		</dd>
+
+		<dt><h3><a name="Description">Description</a></h3></dt>
+		<dd>Count (make statistic) of used operator/functions . </dd>
+		<dt><h3><a name="Install"></a>Install</a></h3></dt>
+		<dd>
+			<ol>
+				<li>Clone the project from github.</li>
+				<li>Optional: Copy <code>src</code> folder in some for your suitable place.<br>
+				If you want to use directly from place where you clone counter project you may skip this step.
+				</li>
+				<li>Put <code>src</code> in your path.<br> If you copy <code>src</code> in someplace that is already in your path then skip this step.</li>
+			</ol>
+			Done!<br>
+		</dd>
+		<dt><h3><a name="API">API</a></h3></dt>
+		<dd>
+			Starting points:
+			<ul>
+				<li><a href="./integrate.html">Integration</a></li>
+				<li><a href="./parallel.html">Paralle statistic.</a></li>
+			</ul>
+		</dd>
+
+		<dt><h3><a name="Using">Using</a></h3></dt>
+		<dd>
+			Include <code>counter.hpp</code> situated in <code>src/counter</code> directory.<br><br>
+
+
+		</dd>
+
+		<dt><h3><a name="Examples">Examples</a></h3></dt>
+		<dd>
+			"Hello World" example:
+<blockquote><code><pre>
+
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+
+#include "counter/counter.hpp"
+
+struct MyCategory{};
+typedef ::counter::number&lt;MyCategory, double&gt; MyDouble;
+
+int main( int argc, char *argv[] )
+ {
+  
+  MyDouble a, b, c;
+
+  a = a + b + - c;
+
+  std::cout &lt;&lt; "Number of calls of assignment operator: " 
+            &lt;&lt; MyDouble::statistics().container()[ ::counter::constant::operator_assign ]
+            &lt;&lt; std::endl
+            &lt;&lt; "Number of calls of binary plus operator: " 
+            &lt;&lt; MyDouble::statistics().container()[ ::counter::constant::operator_plus_full ]
+            &lt;&lt; std::endl
+            &lt;&lt; "Number of calls of unary minus: " 
+            &lt;&lt; MyDouble::statistics().container()[ ::counter::constant::operator_minus_unary ]
+            &lt;&lt; std::endl;
+
+  return EXIT_SUCCESS;
+ }
+
+</pre></code></blockquote>		
+			In the root of the project there is folder <code>example</code>.<br> It's contain  <i>one-file-example</i>s e.g all examples are in form  that do not need additional file to be compiled i.e self-sufficient examples.<br>
+			<code>make_all.sh</code> will compile all examples by using <code>g++</code>.
+		</dd>
+
+		<dt><h3><a name="FAQ">FAQ</a></h3></dt>
+		<dd>
+			<a href="./faq.html">Frequently Asked questions</a>
+		</dd>
+
+
+	</dl>
+	<hr>
+</body>
+</html>
+

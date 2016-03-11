@@ -1,6 +1,7 @@
 #ifndef counter_model
 #define counter_model
 
+#include "./category.hpp"
 #include "./constant.hpp"
 #include "./statistics.hpp"
 
@@ -9,17 +10,17 @@ namespace counter
 
   template
    <
-     typename class_name
-    ,typename underlying_name
+     typename underlying_name
+    ,typename class_name     = ::counter::category::common
    >
    class model
     {
      public:
-       typedef  class_name       class_type;
+       typedef  class_name         class_type;
 
        typedef  underlying_name   underlying_type;
 
-       typedef  ::counter::model< class_name, underlying_name > this_type;
+       typedef  ::counter::model< underlying_name, class_type > this_type;
        typedef  ::counter::statistics  statistics_type;
 
        model()
@@ -47,12 +48,14 @@ namespace counter
        this_type & operator=( this_type const& that )
         {
          statistics().increase( ::counter::constant::operator_assign );
+         this->set( that.get() );
          return *this;
         }
 
        this_type & operator=( underlying_type const& that )
         {
          statistics().increase( ::counter::constant::operator_assign );
+         this->get() = that;
          return *this;
         }
 
@@ -72,6 +75,11 @@ namespace counter
         {
          statistics().increase( ::counter::constant::member_get_modify );
          return m_underlying;
+        }
+
+       void set( underlying_type const& that )
+        { 
+         m_underlying = that;
         }
 
      public:

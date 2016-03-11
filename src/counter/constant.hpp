@@ -17,8 +17,10 @@ namespace counter
       ,member_get_modify
       ,operator_assign
       ,operator_convert
+      ,operator_plus_unary
       ,operator_plus_full
       ,operator_plus_accumulate
+      ,operator_minus_unary
       ,operator_minus_full
       ,operator_minus_accumulate
       ,operator_multiply_full
@@ -74,8 +76,10 @@ namespace counter
           "member_get_modify",
           "operator_assign",
           "operator_convert",
+          "operator_plus_unary",
           "operator_plus_full",
           "operator_plus_accumulate",
+          "operator_minus_unary",
           "operator_minus_full",
           "operator_minus_accumulate",
           "operator_multiply",

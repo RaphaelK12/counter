@@ -7,9 +7,8 @@
 namespace counter
  {
 
-
-   template< typename class_name, typename underlying_name >
-    using number = ::counter::model< class_name, underlying_name >;
+   template< typename underlying_name, typename class_name = ::counter::category::common >
+    using number = ::counter::model< underlying_name, class_name >;
  }
  
 #endif

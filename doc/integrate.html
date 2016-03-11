@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Dejan D. M. Milosavljevic">
+		<!-- <link rel="icon" href="../favicon.ico" type="image/ico"> -->
+		<title>Counter: (Dis)Integration</title>
+	</head>
+	<body>
+     <h1 align="center">Counter: (Dis)Integration</h1>
+
+		<dl>
+			<dt>Steps</dt>
+			<dd>
+				<ol>
+					<li>Ensure that you every number like type( e.g. int, float, etc ) is behind some typedef.<br>
+					</li>
+					<li>
+						Instead original type-number( int, float, etc ) use:<br>
+						<blockquote><code> ::counter::number</code></blockquote>
+					</li>
+				</ol>
+			</dd>
+			<dt>Example:</dt>
+			<dd>
+				<dl>
+					<dt>Original code</dt>
+					<dd>
+					 <code>void myFunction( <b>float</b> f ){ ... }</code>
+					</dd>
+					<dt>typedefed float</dt>
+					<dd>
+					 <code>typedef <b>float</b> MyFloat;<br>
+					 void myFunction( <b>MyFloat</b> f ){ ... }</code>
+					</dd>
+					<dt>Integrate</dt>
+					<dd>
+						<code>typedef <b>::counter::number&lt;float&gt;</b> MyFloat;<br>
+							void myFunction( MyFloat f ){ }</code>
+					</dd>
+					<dt>Disintegration</dt>
+					<dd>
+					<code>typedef <b>float</b> MyFloat;<br>
+						void myFunction( <b>MyFloat</b> f ){ }</code>
+					</dd>
+				</ol>	
+
+
+			</dd>
+		</dl>
+
+
+		<hr>
+	</body>
+</html>

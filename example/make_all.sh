@@ -3,5 +3,8 @@
 # One line one example
 # Designed for easy copy/paste
 
+
+g++ -fexceptions -std=c++11 -g -I../src hello.cpp             -o  hello
 g++ -fexceptions -std=c++11 -g -I../src one.cpp               -o  one
 g++ -fexceptions -std=c++11 -g -I../src two.cpp               -o  two
+
