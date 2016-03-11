@@ -17,7 +17,7 @@ namespace counter
       )
       {
        ::counter::model< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_plus_unary );
-       return + left.get();
+       return ::counter::model< underlying_name, class_name >( + left.get() );
       }
 
     template < typename underlying_name, typename class_name >
@@ -53,7 +53,7 @@ namespace counter
       )
       {
        ::counter::model< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_minus_unary );
-       return -  left.get();
+       return ::counter::model< underlying_name, class_name >( - left.get() );
       }
 
 
@@ -228,19 +228,19 @@ namespace counter
 
     template < typename underlying_name, typename class_name >
      inline
-     underlying_name operator ~
+     ::counter::model< underlying_name, class_name > operator ~
       (
        ::counter::model< underlying_name, class_name >      & left
       )
       {
        ::counter::model< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_bit_not );
-       return ~left.get();
+       return ::counter::model< underlying_name, class_name >( ~left.get() );
       }      
 
 
     template < typename underlying_name, typename class_name >
      inline
-     ::counter::model< underlying_name, class_name > operator &&
+     bool operator &&
       (
        ::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
       )
@@ -265,7 +265,7 @@ namespace counter
 
     template < typename underlying_name, typename class_name >
      inline
-     ::counter::model< underlying_name, class_name > operator ||
+     bool operator ||
       (
        ::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
       )
@@ -287,17 +287,6 @@ namespace counter
        return left;
       }
 */
-
-    template < typename underlying_name, typename class_name >
-     inline
-     underlying_name operator !
-      (
-       ::counter::model< underlying_name, class_name >     const& left
-      )
-      {
-       ::counter::model< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_not );
-       return !left.get();
-      }
 
     template < typename underlying_name, typename class_name >
      inline
@@ -344,6 +333,17 @@ namespace counter
        ::counter::model< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_shift_left_accumulate );
        left.get() <<= right.get();
        return left;
+      }
+
+    template < typename underlying_name, typename class_name >
+     inline
+     bool operator !
+      (
+       ::counter::model< underlying_name, class_name >     const& left
+      )
+      {
+       ::counter::model< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_not );
+       return !left.get();
       }
 
     template < typename underlying_name, typename class_name >
