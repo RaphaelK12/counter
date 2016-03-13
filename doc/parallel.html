@@ -4,17 +4,21 @@
 		<meta charset="UTF-8">
 		<meta name="author" content="Dejan D. M. Milosavljevic">
 		<!-- <link rel="icon" href="../favicon.ico" type="image/ico"> -->
-		<title>Counter: (Dis)Integration</title>
+		<title>Counter: Statistics of two numbers </title>
 	</head>
 	<body>
-     <h1 align="center">Counter: (Dis)Integration</h1>
+     <h1 align="center">Counter: Statistics of two numbers</h1>
 
 		<dl>
+			<dt>Description</dt>
+			<dd> Sometimes there is a need to have separate statistics for some functions/classes.<br>
+				This can be easily achieved in several steps.
+			</dd>
 			<dt>Steps</dt>
 			<dd>
 				<ol>
 					<li>Ensure that you every number like type( e.g. int, float, etc ) is behind some typedef.<br></li>
-					<li>Make two or more empty struct. <br></li>
+					<li>Make two or more empty <code>struct</code>. <br></li>
 					<li>
 						Instead original type-number( int, float, etc ) use:<br>
 						<blockquote><code> ::counter::number&lt; <i>number</i>, <i>empty_struct</i> &gt; </code></blockquote>
