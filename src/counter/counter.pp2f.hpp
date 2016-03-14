@@ -41,36 +41,36 @@ enum list {
 	,operator_assign
 	,operator_convert
 	,operator_plus_unary
-	,operator_plus_full
+	,operator_plus_binary
 	,operator_plus_accumulate
 	,operator_minus_unary
-	,operator_minus_full
+	,operator_minus_binary
 	,operator_minus_accumulate
-	,operator_multiply_full
+	,operator_multiply_binary
 	,operator_multiply_accumulate
-	,operator_divide_full
+	,operator_divide_binary
 	,operator_divide_accumulate
-	,operator_module_full
+	,operator_module_binary
 	,operator_module_accumulate
 	,operator_increment_left
 	,operator_increment_right
 	,operator_decremet_left
 	,operator_decremet_right
 	,operator_or_bit_accumulate
-	,operator_or_bit_full
+	,operator_or_bit_binary
 	,operator_or_logic_accumulate
 	,operator_not
-	,operator_or_logic_full
+	,operator_or_logic_binary
 	,operator_and_bit_accumulate
-	,operator_and_bit_full
+	,operator_and_bit_binary
 	,operator_and_logic_accumulate
-	,operator_and_logic_full
+	,operator_and_logic_binary
 	,operator_xor_bit_accumulate
 	,operator_bit_not
-	,operator_xor_bit_full
-	,operator_shift_left_full
+	,operator_xor_bit_binary
+	,operator_shift_left_binary
 	,operator_shift_left_accumulate
-	,operator_shift_right_full
+	,operator_shift_right_binary
 	,operator_shift_right_accumulate
 	,operator_equal_strict
 	,operator_not_equal_strict
@@ -78,11 +78,18 @@ enum list {
 	,operator_less_equal
 	,operator_great_strict
 	,operator_great_equal
-	,function_power
-	,function_sin
 	,function_cos
+	,function_sin
 	,function_tan
+	,function_acos
+	,function_asin
 	,function_atan
+	,function_cosh
+	,function_sinh
+	,function_tanh
+	,function_acosh
+	,function_asinh
+	,function_atanh
 	,_last
 };
 
@@ -97,36 +104,36 @@ inline std::string const& to_string(int const& index) {
 		"operator_assign",
 		"operator_convert",
 		"operator_plus_unary",
-		"operator_plus_full",
+		"operator_plus_binary",
 		"operator_plus_accumulate",
 		"operator_minus_unary",
-		"operator_minus_full",
+		"operator_minus_binary",
 		"operator_minus_accumulate",
 		"operator_multiply",
 		"operator_multiply_accumulate",
-		"operator_divide_full",
+		"operator_divide_binary",
 		"operator_divide_accumulate",
-		"operator_module_full",
+		"operator_module_binary",
 		"operator_module_accumulate",
 		"operator_increment_left",
 		"operator_increment_right",
 		"operator_decremet_left",
 		"operator_decremet_right",
 		"operator_or_bit_accumulate",
-		"operator_or_bit_full",
-		"operator_or_logic_full",
+		"operator_or_bit_binary",
+		"operator_or_logic_binary",
 		"operator_or_logic_accumulate",
 		"operator_not",
 		"operator_and_bit_accumulate",
-		"operator_and_bit_full",
+		"operator_and_bit_binary",
 		"operator_and_logic_accumulate",
-		"operator_and_logic_full",
+		"operator_and_logic_binary",
 		"operator_xor_bit_accumulate",
 		"operator_bit_not",
-		"operator_xor_bit_full",
-		"operator_shift_left_full",
+		"operator_xor_bit_binary",
+		"operator_shift_left_binary",
 		"operator_shift_left_accumulate",
-		"operator_shift_right_full",
+		"operator_shift_right_binary",
 		"operator_shift_right_accumulate",
 		"operator_equal_strict",
 		"operator_not_equal_strict",
@@ -134,11 +141,18 @@ inline std::string const& to_string(int const& index) {
 		"operator_less_equal",
 		"operator_great_strict",
 		"operator_great_equal",
-		"function_power",
-		"function_sin",
 		"function_cos",
+		"function_sin",
 		"function_tan",
+		"function_acos",
+		"function_asin",
 		"function_atan",
+		"function_cosh",
+		"function_sinh",
+		"function_tanh",
+		"function_acosh",
+		"function_asinh",
+		"function_atanh",
 		"_last"
 	};
 	return s_name[ index ];
@@ -157,7 +171,7 @@ public:
 
 	typedef ::counter::statistics statistics_type;
 
-	typedef std::vector< key_type > container_type;
+	typedef std::vector< counter_type > container_type;
 
 	statistics() {
 		m_container.resize(::counter::constant::_last, 0);
@@ -207,30 +221,30 @@ template
 typename underlying_name
 ,typename class_name = ::counter::category::common
 >
-class model {
+class number {
 public:
 	typedef class_name class_type;
 
 	typedef underlying_name underlying_type;
 
-	typedef ::counter::model< underlying_name, class_type > this_type;
+	typedef ::counter::number< underlying_name, class_type > this_type;
 	typedef ::counter::statistics statistics_type;
 
-	model() {
+	number() {
 		statistics().increase(::counter::constant::construction_blank);
 	}
 
-	model(underlying_type const& underlying) {
+	number(underlying_type const& underlying) {
 		this->m_underlying = underlying;
 		statistics().increase(::counter::constant::construction_underlying);
 	}
 
-	model(this_type const& that) {
+	number(this_type const& that) {
 		*this = that;
 		statistics().increase(::counter::constant::construction_assign);
 	}
 
-	~model() {
+	~number() {
 		statistics().increase(::counter::constant::destruction);
 	}
 
@@ -279,268 +293,262 @@ private:
 }
 
 namespace counter {
-
-template< typename underlying_name, typename class_name = ::counter::category::common >
-using number = ::counter::model< underlying_name, class_name >;
-}
-
-namespace counter {
 namespace operators {
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator+
+::counter::number< underlying_name, class_name > operator+
 (
-	::counter::model< underlying_name, class_name > const& left
+	::counter::number< underlying_name, class_name > const& left
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_plus_unary);
-	return ::counter::model< underlying_name, class_name >(+ left.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_plus_unary);
+	return ::counter::number< underlying_name, class_name >(+ left.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator+
+::counter::number< underlying_name, class_name > operator+
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_plus_full);
-	return ::counter::model< underlying_name, class_name >(left.get() + right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_plus_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() + right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator+=
+::counter::number< underlying_name, class_name > & operator+=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_plus_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_plus_accumulate);
 	left.get() += right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator-
+::counter::number< underlying_name, class_name > operator-
 (
-	::counter::model< underlying_name, class_name > const& left
+	::counter::number< underlying_name, class_name > const& left
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_minus_unary);
-	return ::counter::model< underlying_name, class_name >(- left.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_minus_unary);
+	return ::counter::number< underlying_name, class_name >(- left.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator-
+::counter::number< underlying_name, class_name > operator-
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_minus_full);
-	return ::counter::model< underlying_name, class_name >(left.get() - right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_minus_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() - right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator-=
+::counter::number< underlying_name, class_name > & operator-=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_minus_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_minus_accumulate);
 	left.get() -= right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator*
+::counter::number< underlying_name, class_name > operator*
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_multiply_full);
-	return ::counter::model< underlying_name, class_name >(left.get() * right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_multiply_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() * right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator *=
+::counter::number< underlying_name, class_name > & operator *=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_multiply_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_multiply_accumulate);
 	left.get() *= right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator/
+::counter::number< underlying_name, class_name > operator/
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_divide_full);
-	return ::counter::model< underlying_name, class_name >(left.get() / right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_divide_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() / right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator /=
+::counter::number< underlying_name, class_name > & operator /=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_divide_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_divide_accumulate);
 	left.get() /= right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator%
+::counter::number< underlying_name, class_name > operator%
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_module_full);
-	return ::counter::model< underlying_name, class_name >(left.get() % right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_module_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() % right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator %=
+::counter::number< underlying_name, class_name > & operator %=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_module_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_module_accumulate);
 	left.get() %= right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator|
+::counter::number< underlying_name, class_name > operator|
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_or_bit_full);
-	return ::counter::model< underlying_name, class_name >(left.get() | right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_or_bit_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() | right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator |=
+::counter::number< underlying_name, class_name > & operator |=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_or_bit_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_or_bit_accumulate);
 	left.get() |= right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator&
+::counter::number< underlying_name, class_name > operator&
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_and_bit_full);
-	return ::counter::model< underlying_name, class_name >(left.get() & right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_and_bit_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() & right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator &=
+::counter::number< underlying_name, class_name > & operator &=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_and_bit_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_and_bit_accumulate);
 	left.get() &= right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator^
+::counter::number< underlying_name, class_name > operator^
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_xor_bit_full);
-	return ::counter::model< underlying_name, class_name >(left.get() ^ right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_xor_bit_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() ^ right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator ^=
+::counter::number< underlying_name, class_name > & operator ^=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_xor_bit_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_xor_bit_accumulate);
 	left.get() ^= right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator ~
+::counter::number< underlying_name, class_name > operator ~
 (
-	::counter::model< underlying_name, class_name > & left
+	::counter::number< underlying_name, class_name > & left
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_bit_not);
-	return ::counter::model< underlying_name, class_name >(~left.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_bit_not);
+	return ::counter::number< underlying_name, class_name >(~left.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
 bool operator &&
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_and_logic_full);
-	return ::counter::model< underlying_name, class_name >(left.get() && right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_and_logic_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() && right.get());
 }
 template < typename underlying_name, typename class_name >
 inline
 bool operator ||
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_or_logic_full);
-	return ::counter::model< underlying_name, class_name >(left.get() || right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_or_logic_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() || right.get());
 }
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator>>
+::counter::number< underlying_name, class_name > operator>>
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_shift_right_full);
-	return ::counter::model< underlying_name, class_name >(left.get() >> right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_shift_right_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() >> right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator >>=
+::counter::number< underlying_name, class_name > & operator >>=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_shift_right_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_shift_right_accumulate);
 	left.get() >>= right.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > operator<<
+::counter::number< underlying_name, class_name > operator<<
 (
-	::counter::model< underlying_name, class_name > const& left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > const& left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_shift_left_full);
-	return ::counter::model< underlying_name, class_name >(left.get() << right.get());
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_shift_left_binary);
+	return ::counter::number< underlying_name, class_name >(left.get() << right.get());
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name > & operator <<=
+::counter::number< underlying_name, class_name > & operator <<=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_shift_left_accumulate);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_shift_left_accumulate);
 	left.get() <<= right.get();
 	return left;
 }
@@ -549,9 +557,9 @@ template < typename underlying_name, typename class_name >
 inline
 bool operator !
 (
-	::counter::model< underlying_name, class_name > const& left
+	::counter::number< underlying_name, class_name > const& left
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_not);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_not);
 	return !left.get();
 }
 
@@ -559,9 +567,9 @@ template < typename underlying_name, typename class_name >
 inline
 bool operator ==
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_equal_strict);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_equal_strict);
 	return left.get() == right.get();
 }
 
@@ -569,9 +577,9 @@ template < typename underlying_name, typename class_name >
 inline
 bool operator !=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_not_equal_strict);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_not_equal_strict);
 	return left.get() != right.get();
 }
 
@@ -579,9 +587,9 @@ template < typename underlying_name, typename class_name >
 inline
 bool operator <
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_less_strict);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_less_strict);
 	return left.get() < right.get();
 }
 
@@ -589,9 +597,9 @@ template < typename underlying_name, typename class_name >
 inline
 bool operator <=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_less_equal);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_less_equal);
 	return left.get() <= right.get();
 }
 
@@ -599,9 +607,9 @@ template < typename underlying_name, typename class_name >
 inline
 bool operator >
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_great_strict);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_great_strict);
 	return left.get() > right.get();
 }
 
@@ -609,50 +617,177 @@ template < typename underlying_name, typename class_name >
 inline
 bool operator >=
 (
-	::counter::model< underlying_name, class_name > & left, ::counter::model< underlying_name, class_name > const& right
+	::counter::number< underlying_name, class_name > & left, ::counter::number< underlying_name, class_name > const& right
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_great_equal);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_great_equal);
 	return left.get() >= right.get();
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name >& operator ++
+::counter::number< underlying_name, class_name >& operator ++
 (
-	::counter::model< underlying_name, class_name > & left
+	::counter::number< underlying_name, class_name > & left
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_increment_left);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_increment_left);
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name >& operator ++
+::counter::number< underlying_name, class_name >& operator ++
 (
-	::counter::model< underlying_name, class_name > & left, int dummy
+	::counter::number< underlying_name, class_name > & left, int dummy
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_increment_right);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_increment_right);
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name >& operator --
+::counter::number< underlying_name, class_name >& operator --
 (
-	::counter::model< underlying_name, class_name > & left
+	::counter::number< underlying_name, class_name > & left
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_decremet_left);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_decremet_left);
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::model< underlying_name, class_name >& operator --
+::counter::number< underlying_name, class_name >& operator --
 (
-	::counter::model< underlying_name, class_name > & left, int dummy
+	::counter::number< underlying_name, class_name > & left, int dummy
 ) {
-	::counter::model< underlying_name, class_name >::statistics().increase(::counter::constant::operator_decremet_right);
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_decremet_right);
 	return left;
+}
+
+}
+
+}
+
+namespace counter {
+namespace functionss {
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > cos
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_cos);
+	return ::counter::number< underlying_name, class_name >(cos(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > sin
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_sin);
+	return ::counter::number< underlying_name, class_name >(sin(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > tan
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_tan);
+	return ::counter::number< underlying_name, class_name >(tan(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > acos
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_acos);
+	return ::counter::number< underlying_name, class_name >(acos(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > asin
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_asin);
+	return ::counter::number< underlying_name, class_name >(asin(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > atan
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_atan);
+	return ::counter::number< underlying_name, class_name >(atan(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > cosh
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_cosh);
+	return ::counter::number< underlying_name, class_name >(cosh(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > sinh
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_sinh);
+	return ::counter::number< underlying_name, class_name >(sinh(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > tanh
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_tanh);
+	return ::counter::number< underlying_name, class_name >(tanh(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > acosh
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_acosh);
+	return ::counter::number< underlying_name, class_name >(acosh(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > asinh
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_asinh);
+	return ::counter::number< underlying_name, class_name >(asinh(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > atanh
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_atanh);
+	return ::counter::number< underlying_name, class_name >(atanh(right.get()));
 }
 
 }

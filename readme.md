@@ -35,7 +35,7 @@ int main( int argc, char *argv[] )
             << MyDouble::statistics()[ ::counter::constant::operator_assign ]
             << std::endl
             << "Number of calls of binary plus operator: " 
-            << MyDouble::statistics()[ ::counter::constant::operator_plus_full ]
+            << MyDouble::statistics()[ ::counter::constant::operator_plus_binary ]
             << std::endl
             << "Number of calls of unary minus: " 
             << MyDouble::statistics()[ ::counter::constant::operator_minus_unary ]

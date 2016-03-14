@@ -14,7 +14,7 @@ namespace counter
 
        typedef  ::counter::statistics statistics_type;
 
-       typedef std::vector< key_type > container_type;
+       typedef std::vector< counter_type > container_type;
 
        statistics()
         {
