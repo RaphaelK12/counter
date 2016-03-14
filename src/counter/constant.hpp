@@ -67,6 +67,7 @@ namespace counter
       ,function_acosh
       ,function_asinh
       ,function_atanh
+      ,function_atan2
       ,_last
       };
 
@@ -133,6 +134,7 @@ namespace counter
           "function_acosh",
           "function_asinh",
           "function_atanh",
+          "function_atan2",
           "_last"
          };
 

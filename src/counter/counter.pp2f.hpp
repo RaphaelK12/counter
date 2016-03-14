@@ -90,6 +90,7 @@ enum list {
 	,function_acosh
 	,function_asinh
 	,function_atanh
+	,function_atan2
 	,_last
 };
 
@@ -153,6 +154,7 @@ inline std::string const& to_string(int const& index) {
 		"function_acosh",
 		"function_asinh",
 		"function_atanh",
+		"function_atan2",
 		"_last"
 	};
 	return s_name[ index ];
@@ -728,6 +730,17 @@ inline
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_atan);
 	return ::counter::number< underlying_name, class_name >(atan(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > atan2
+(
+	::counter::number< underlying_name, class_name > const& left
+	,::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_atan2);
+	return ::counter::number< underlying_name, class_name >(atan2(left.get(), right.get()));
 }
 
 template < typename underlying_name, typename class_name >

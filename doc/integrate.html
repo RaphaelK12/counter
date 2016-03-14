@@ -10,7 +10,7 @@
 	<h1 align="center">Counter: (Dis)Integration</h1>
 
 		<dl>
-			<dt>Steps</dt>
+			<dt><h3>Steps</h3></dt>
 			<dd>
 				<ol>
 					<li>Ensure that you every number like type( e.g. int, float, etc ) is behind some typedef.<br>
@@ -21,24 +21,24 @@
 					</li>
 				</ol>
 			</dd>
-			<dt>Example:</dt>
+			<dt><h3>Example</h3></dt>
 			<dd>
 				<dl>
-					<dt>Original code</dt>
+					<dt><h4>Original code</h4></dt>
 					<dd>
 					 <code>void myFunction( <b>float</b> f ){ ... }</code>
 					</dd>
-					<dt>typedefed float</dt>
+					<dt><h4>typedefed float</h4></dt>
 					<dd>
 					 <code>typedef <b>float</b> MyFloat;<br>
 					 void myFunction( <b>MyFloat</b> f ){ ... }</code>
 					</dd>
-					<dt>Integrate</dt>
+					<dt><h4>Integrate</h4></dt>
 					<dd>
 						<code>typedef <b>::counter::number&lt;float&gt;</b> MyFloat;<br>
 							void myFunction( MyFloat f ){ }</code>
 					</dd>
-					<dt>Disintegration</dt>
+					<dt><h4>Disintegration</h4></dt>
 					<dd>
 					<code>typedef <b>float</b> MyFloat;<br>
 						void myFunction( <b>MyFloat</b> f ){ }</code>

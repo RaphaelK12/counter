@@ -78,8 +78,17 @@ namespace counter
        return ::counter::number< underlying_name, class_name >( atan( right.get() ) );
       }
 
-
-// TODO atan2
+    template < typename underlying_name, typename class_name >
+     inline
+     ::counter::number< underlying_name, class_name > atan2
+      (
+        ::counter::number< underlying_name, class_name > const& left
+       ,::counter::number< underlying_name, class_name > const& right
+      )
+      {
+       ::counter::number< underlying_name, class_name >::statistics().increase( ::counter::constant::function_atan2 );
+       return ::counter::number< underlying_name, class_name >( atan2( left.get(), right.get() ) );
+      }
 
     template < typename underlying_name, typename class_name >
      inline
@@ -135,7 +144,7 @@ namespace counter
        ::counter::number< underlying_name, class_name >::statistics().increase( ::counter::constant::function_asinh );
        return ::counter::number< underlying_name, class_name >( asinh( right.get() ) );
       }
- 
+
     template < typename underlying_name, typename class_name >
      inline
      ::counter::number< underlying_name, class_name > atanh
@@ -146,9 +155,9 @@ namespace counter
        ::counter::number< underlying_name, class_name >::statistics().increase( ::counter::constant::function_atanh );
        return ::counter::number< underlying_name, class_name >( atanh( right.get() ) );
       }
- 
-   } 
+
+   }
 
  }
- 
+
 #endif
