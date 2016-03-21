@@ -91,6 +91,10 @@ enum list {
 	,function_asinh
 	,function_atanh
 	,function_atan2
+	,function_pow
+	,function_sqrt
+	,function_cbrt
+	,function_hypot
 	,_last
 };
 
@@ -155,6 +159,10 @@ inline std::string const& to_string(int const& index) {
 		"function_asinh",
 		"function_atanh",
 		"function_atan2",
+		"function_pow",
+		"function_sqrt",
+		"function_cbrt",
+		"function_hypot",
 		"_last"
 	};
 	return s_name[ index ];
@@ -670,7 +678,7 @@ inline
 }
 
 namespace counter {
-namespace functionss {
+namespace functions {
 
 template < typename underlying_name, typename class_name >
 inline
@@ -679,7 +687,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_cos);
-	return ::counter::number< underlying_name, class_name >(cos(right.get()));
+	return ::counter::number< underlying_name, class_name >(::cos(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -689,7 +697,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_sin);
-	return ::counter::number< underlying_name, class_name >(sin(right.get()));
+	return ::counter::number< underlying_name, class_name >(::sin(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -699,7 +707,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_tan);
-	return ::counter::number< underlying_name, class_name >(tan(right.get()));
+	return ::counter::number< underlying_name, class_name >(::tan(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -709,7 +717,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_acos);
-	return ::counter::number< underlying_name, class_name >(acos(right.get()));
+	return ::counter::number< underlying_name, class_name >(::acos(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -719,7 +727,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_asin);
-	return ::counter::number< underlying_name, class_name >(asin(right.get()));
+	return ::counter::number< underlying_name, class_name >(::asin(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -729,7 +737,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_atan);
-	return ::counter::number< underlying_name, class_name >(atan(right.get()));
+	return ::counter::number< underlying_name, class_name >(::atan(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -740,7 +748,7 @@ inline
 	,::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_atan2);
-	return ::counter::number< underlying_name, class_name >(atan2(left.get(), right.get()));
+	return ::counter::number< underlying_name, class_name >(::atan2(left.get(), right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -750,7 +758,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_cosh);
-	return ::counter::number< underlying_name, class_name >(cosh(right.get()));
+	return ::counter::number< underlying_name, class_name >(::cosh(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -760,7 +768,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_sinh);
-	return ::counter::number< underlying_name, class_name >(sinh(right.get()));
+	return ::counter::number< underlying_name, class_name >(::sinh(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -770,7 +778,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_tanh);
-	return ::counter::number< underlying_name, class_name >(tanh(right.get()));
+	return ::counter::number< underlying_name, class_name >(::tanh(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -780,7 +788,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_acosh);
-	return ::counter::number< underlying_name, class_name >(acosh(right.get()));
+	return ::counter::number< underlying_name, class_name >(::acosh(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -790,7 +798,7 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_asinh);
-	return ::counter::number< underlying_name, class_name >(asinh(right.get()));
+	return ::counter::number< underlying_name, class_name >(::asinh(right.get()));
 }
 
 template < typename underlying_name, typename class_name >
@@ -800,7 +808,49 @@ inline
 	::counter::number< underlying_name, class_name > const& right
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_atanh);
-	return ::counter::number< underlying_name, class_name >(atanh(right.get()));
+	return ::counter::number< underlying_name, class_name >(::atanh(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > pow
+(
+	::counter::number< underlying_name, class_name > const& left
+	,::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_pow);
+	return ::counter::number< underlying_name, class_name >(::pow(left.get(), right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > sqrt
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_sqrt);
+	return ::counter::number< underlying_name, class_name >(::sqrt(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > cbrt
+(
+	::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_cbrt);
+	return ::counter::number< underlying_name, class_name >(::cbrt(right.get()));
+}
+
+template < typename underlying_name, typename class_name >
+inline
+::counter::number< underlying_name, class_name > hypot
+(
+	::counter::number< underlying_name, class_name > const& left
+	,::counter::number< underlying_name, class_name > const& right
+) {
+	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::function_hypot);
+	return ::counter::number< underlying_name, class_name >(::hypot(left.get(), right.get()));
 }
 
 }

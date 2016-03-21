@@ -68,6 +68,10 @@ namespace counter
       ,function_asinh
       ,function_atanh
       ,function_atan2
+      ,function_pow
+      ,function_sqrt
+      ,function_cbrt
+      ,function_hypot
       ,_last
       };
 
@@ -102,7 +106,7 @@ namespace counter
           "operator_decremet_right",
           "operator_or_bit_accumulate",
           "operator_or_bit_binary",
-          "operator_or_logic_binary",          
+          "operator_or_logic_binary",
           "operator_or_logic_accumulate",
           "operator_not",
           "operator_and_bit_accumulate",
@@ -135,6 +139,10 @@ namespace counter
           "function_asinh",
           "function_atanh",
           "function_atan2",
+          "function_pow",
+          "function_sqrt",
+          "function_cbrt",
+          "function_hypot",
           "_last"
          };
 
@@ -143,8 +151,10 @@ namespace counter
 
    }
  }
- 
+
 #endif
+
+
 
 
 

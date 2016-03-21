@@ -8,6 +8,9 @@ typedef ::counter::number< float > MyFloat;
 typedef ::counter::number< int   > MyInt;
 
 
+using namespace counter::functions;
+
+
 void print( ::counter::statistics const& stat )
  {
  	int index=0;
@@ -101,6 +104,38 @@ void invoke_crement()
   --a;
   a++;
   a--;
+ }
+
+void invoke_trigonometric()
+ {
+   MyFloat a=0.1,b = 0.5;
+   a = cos( b );
+   a = sin( b );
+   a = tan( b );
+   a = acos( b );
+   a = asin( b );
+   a = atan( b );
+   a = atan2( a, b );
+ }
+
+void invoke_hyperbolic()
+ {
+   MyFloat a,b = 0.5;
+   a = cosh( b );
+   a = sinh( b );
+   a = tanh( b );
+   a = acosh( b );
+   a = asinh( b );
+   a = atanh( b );
+ }
+
+void invoke_power()
+ {
+   MyFloat a=0.1,b = 0.5,c;
+   c = pow( a, b );
+   c = sqrt( b );
+   c = cbrt( b );
+   c = hypot( a, b );
 
  }
 
@@ -116,8 +151,11 @@ int main( int argc, char *argv[] )
   invoke_bit();
   invoke_comparison();
   invoke_crement();
+  invoke_trigonometric();
+  invoke_hyperbolic();
+  invoke_power();
 
-  //print( MyFloat::statistics() );
+  print( MyFloat::statistics() );
   print( MyInt::statistics() );
 
   return EXIT_SUCCESS;
