@@ -6,9 +6,9 @@
 #include <string>
 
 #if defined COUNTER_USE_PP2FILE
-#include "counter.pp2f.hpp"
+#include "./counter.pp2f.hpp"
 #else
-#include "counter.body.hpp"
+#include "./counter.body.hpp"
 #endif
 
 #endif
