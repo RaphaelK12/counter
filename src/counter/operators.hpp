@@ -420,18 +420,21 @@ namespace counter
       )
       {
        ::counter::number< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_increment_left );
+       --left.get();
        return left;
       }
 
     template < typename underlying_name, typename class_name >
      inline
-     ::counter::number< underlying_name, class_name >& operator ++
+     ::counter::number< underlying_name, class_name > operator ++
       (
        ::counter::number< underlying_name, class_name >      & left, int dummy
       )
       {
        ::counter::number< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_increment_right );
-       return left;
+       auto original =  left.get();
+       left.get()++;
+       return original;
       }
 
     template < typename underlying_name, typename class_name >
@@ -442,18 +445,21 @@ namespace counter
       )
       {
        ::counter::number< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_decremet_left );
+       --left.get();
        return left;
       }
 
     template < typename underlying_name, typename class_name >
      inline
-     ::counter::number< underlying_name, class_name >& operator --
+     ::counter::number< underlying_name, class_name > operator --
       (
        ::counter::number< underlying_name, class_name >      & left, int dummy
       )
       {
        ::counter::number< underlying_name, class_name >::statistics().increase( ::counter::constant::operator_decremet_right );
-       return left;
+       auto original =  left.get();
+       left.get()--;
+       return original;
       }
 
    } 

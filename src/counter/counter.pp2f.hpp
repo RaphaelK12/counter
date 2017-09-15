@@ -202,7 +202,7 @@ public:
 	}
 
 	void increase(key_type const& key) {
-		set(key , get(key) + 1);
+		set(key, get(key) + 1);
 	}
 
 	void reset() {
@@ -228,9 +228,9 @@ namespace counter {
 
 template
 <
-typename underlying_name
-,typename class_name = ::counter::category::common
->
+	typename underlying_name
+	,typename class_name = ::counter::category::common
+	>
 class number {
 public:
 	typedef class_name class_type;
@@ -640,17 +640,20 @@ inline
 	::counter::number< underlying_name, class_name > & left
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_increment_left);
+	--left.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::number< underlying_name, class_name >& operator ++
+::counter::number< underlying_name, class_name > operator ++
 (
 	::counter::number< underlying_name, class_name > & left, int dummy
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_increment_right);
-	return left;
+	auto original = left.get();
+	left.get()++;
+	return original;
 }
 
 template < typename underlying_name, typename class_name >
@@ -660,17 +663,20 @@ inline
 	::counter::number< underlying_name, class_name > & left
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_decremet_left);
+	--left.get();
 	return left;
 }
 
 template < typename underlying_name, typename class_name >
 inline
-::counter::number< underlying_name, class_name >& operator --
+::counter::number< underlying_name, class_name > operator --
 (
 	::counter::number< underlying_name, class_name > & left, int dummy
 ) {
 	::counter::number< underlying_name, class_name >::statistics().increase(::counter::constant::operator_decremet_right);
-	return left;
+	auto original = left.get();
+	left.get()--;
+	return original;
 }
 
 }
