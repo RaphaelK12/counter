@@ -4,6 +4,8 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <cstdint>
+#include <type_traits>
 
 #if defined COUNTER_USE_PP2FILE
 #include "./counter.pp2f.hpp"

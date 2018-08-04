@@ -6,3 +6,6 @@ example/hello
 example/utils/out
 example/hello_oneh
 /example/*.exe
+/example/msvc/_OutPut
+/example/msvc/.vs
+/example/msvc/*.db

@@ -12,11 +12,13 @@ namespace counter
        construction_blank
       ,construction_assign
       ,construction_underlying
+      ,construction_other_underlying
       ,destruction
       ,member_get_const
       ,member_get_modify
       ,operator_assign
-      ,operator_convert
+      ,operator_convert_const
+      ,operator_convert_direct
       ,operator_plus_unary
       ,operator_plus_binary
       ,operator_plus_accumulate

@@ -33,6 +33,12 @@ namespace counter
          this->m_underlying = underlying;
          statistics().increase( ::counter::constant::construction_underlying );
         }
+       template< typename other_underlying_name >
+        number( other_underlying_name const& other_underlying )
+         {
+          this->m_underlying = underlying_type( other_underlying );
+          statistics().increase( ::counter::constant::construction_other_underlying );
+         }
 
        number( this_type const& that )
         {
@@ -61,7 +67,13 @@ namespace counter
 
        operator  underlying_type const&()const
         {
-         statistics().increase( ::counter::constant::operator_convert );
+         statistics().increase( ::counter::constant::operator_convert_const );
+         return m_underlying;
+        }
+
+       operator  underlying_type &()
+        {
+         statistics().increase( ::counter::constant::operator_convert_direct );
          return m_underlying;
         }
 

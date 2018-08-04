@@ -13,19 +13,23 @@ using namespace counter::functions;
 
 void print( ::counter::statistics const& stat )
  {
- 	int index=0;
- 	for( auto const& c : stat.container() )
- 	{
- 		std::cout << ::counter::constant::to_string( index ) << " = ";
- 		std::cout << c;
- 		std::cout << std::endl;
- 		++index;
- 	}
+  int index=0;
+  for( auto const& c : stat.container() )
+  {
+   if( 0 == c )
+    continue;
+
+   std::cout << "    ";
+   std::cout << ::counter::constant::to_string( index ) << " = ";
+   std::cout << c;
+   std::cout << std::endl;
+   ++index;
+  }
  }
 
 void invoke_arithmetic()
  {
-  MyInt f1, f2;
+  MyInt f1, f2(2);
 
   f1 = f2;
 
@@ -136,7 +140,6 @@ void invoke_power()
    c = sqrt( b );
    c = cbrt( b );
    c = hypot( a, b );
-
  }
 
 
@@ -155,7 +158,10 @@ int main( int argc, char *argv[] )
   invoke_hyperbolic();
   invoke_power();
 
+  std::cout << "Statistics for MyFloat" << std::endl;
   print( MyFloat::statistics() );
+
+  std::cout << "Statistics for MyInt" << std::endl;
   print( MyInt::statistics() );
 
   return EXIT_SUCCESS;
