@@ -25,12 +25,12 @@ namespace counter
 
        counter_type operator[]( key_type const& key )const
         {
-         return m_container[ key ];
+         return this->m_container[ key ];
         }
 
        void set( key_type const& key, counter_type const& counter )
         {
-         m_container[ key ] = counter;
+         this->m_container[ key ] = counter;
         }
 
        counter_type const& get( key_type const& key )const
@@ -40,14 +40,14 @@ namespace counter
 
        void increase( key_type const& key )
         {
-         set( key , get( key ) + 1 );
+         this->set( key , get( key ) + 1 );
         }
 
        void reset()
         {
          for( auto & i : m_container )
           {
-              i = 0;
+           i = 0;
           }
         }
 
@@ -55,7 +55,7 @@ namespace counter
        container_type      & container(){ return m_container; }
 
      private:
-       bool m_ignore;
+       //bool m_ignore;
        container_type m_container;
     };
  }

@@ -28,13 +28,13 @@ namespace counter
          statistics().increase( ::counter::constant::construction_blank );
         }
 
-       number( underlying_type const& underlying )
+       explicit number( underlying_type const& underlying )
         {
          this->m_underlying = underlying;
          statistics().increase( ::counter::constant::construction_underlying );
         }
        template< typename other_underlying_name >
-        number( other_underlying_name const& other_underlying )
+        explicit number( other_underlying_name const& other_underlying )
          {
           this->m_underlying = underlying_type( other_underlying );
           statistics().increase( ::counter::constant::construction_other_underlying );
