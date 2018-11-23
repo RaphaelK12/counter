@@ -1,3 +1,8 @@
+#!/bin/bash
+
+pwd
+
+
 mkdir out
 g++ ../../src/counter/counter.body.hpp  -o ./out/counter.pp2f0.hpp -E
 sed '/^#/ d'                    < ./out/counter.pp2f0.hpp > ./out/counter.pp2f1.hpp

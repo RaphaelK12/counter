@@ -192,11 +192,11 @@ public:
 	~statistics() {}
 
 	counter_type operator[](key_type const& key)const {
-		return m_container[ key ];
+		return this->m_container[ key ];
 	}
 
 	void set(key_type const& key, counter_type const& counter) {
-		m_container[ key ] = counter;
+		this->m_container[ key ] = counter;
 	}
 
 	counter_type const& get(key_type const& key)const {
@@ -204,7 +204,7 @@ public:
 	}
 
 	void increase(key_type const& key) {
-		set(key, get(key) + 1);
+		this->set(key, get(key) + 1);
 	}
 
 	void reset() {
@@ -221,7 +221,7 @@ public:
 	}
 
 private:
-	bool m_ignore;
+
 	container_type m_container;
 };
 }
@@ -246,12 +246,12 @@ public:
 		statistics().increase(::counter::constant::construction_blank);
 	}
 
-	number(underlying_type const& underlying) {
+	explicit number(underlying_type const& underlying) {
 		this->m_underlying = underlying;
 		statistics().increase(::counter::constant::construction_underlying);
 	}
 	template< typename other_underlying_name >
-	number(other_underlying_name const& other_underlying) {
+	explicit number(other_underlying_name const& other_underlying) {
 		this->m_underlying = underlying_type(other_underlying);
 		statistics().increase(::counter::constant::construction_other_underlying);
 	}

@@ -1,3 +1,9 @@
+#!/bin/bash
+
+reset
+
+pwd 
+
 # Make all examples.
 # No Scons, no CMake, no Make or any other make tool
 # One line one example
