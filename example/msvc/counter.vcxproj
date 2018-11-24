@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\hello.cpp" />
+    <ClCompile Include="..\one.cpp" />
+    <ClCompile Include="..\two.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9915DFFA-5ED9-4A58-A60B-6520DEB82EEB}</ProjectGuid>

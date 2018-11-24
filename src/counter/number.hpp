@@ -33,8 +33,9 @@ namespace counter
          this->m_underlying = underlying;
          statistics().increase( ::counter::constant::construction_underlying );
         }
-       template< typename other_underlying_name >
-        explicit number( other_underlying_name const& other_underlying )
+
+       template< typename other_underlying_name > // Allowed implicit initialization
+        /*explicit*/ number( other_underlying_name const& other_underlying )
          {
           this->m_underlying = underlying_type( other_underlying );
           statistics().increase( ::counter::constant::construction_other_underlying );
@@ -53,17 +54,26 @@ namespace counter
 
        this_type & operator=( this_type const& that )
         {
-         statistics().increase( ::counter::constant::operator_assign );
+         statistics().increase( ::counter::constant::operator_assign_this );
          this->set( that.get() );
          return *this;
         }
 
        this_type & operator=( underlying_type const& that )
         {
-         statistics().increase( ::counter::constant::operator_assign );
+         statistics().increase( ::counter::constant::operator_assign_underline );
          this->get() = that;
          return *this;
         }
+
+       template< typename other_underlying_name > 
+        this_type & operator=( other_underlying_name const& other )
+         {
+          statistics().increase( ::counter::constant::operator_assign_other );
+          this->get() = other;
+          return *this;
+         }
+
 
        operator  underlying_type const&()const
         {

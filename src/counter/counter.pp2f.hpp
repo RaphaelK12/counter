@@ -40,6 +40,9 @@ enum list {
 	,member_get_const
 	,member_get_modify
 	,operator_assign
+	,operator_assign_this
+	,operator_assign_underline
+	,operator_assign_other
 	,operator_convert_const
 	,operator_convert_direct
 	,operator_plus_unary
@@ -250,8 +253,9 @@ public:
 		this->m_underlying = underlying;
 		statistics().increase(::counter::constant::construction_underlying);
 	}
+
 	template< typename other_underlying_name >
-	explicit number(other_underlying_name const& other_underlying) {
+	number(other_underlying_name const& other_underlying) {
 		this->m_underlying = underlying_type(other_underlying);
 		statistics().increase(::counter::constant::construction_other_underlying);
 	}
@@ -266,14 +270,21 @@ public:
 	}
 
 	this_type & operator=(this_type const& that) {
-		statistics().increase(::counter::constant::operator_assign);
+		statistics().increase(::counter::constant::operator_assign_this);
 		this->set(that.get());
 		return *this;
 	}
 
 	this_type & operator=(underlying_type const& that) {
-		statistics().increase(::counter::constant::operator_assign);
+		statistics().increase(::counter::constant::operator_assign_underline);
 		this->get() = that;
+		return *this;
+	}
+
+	template< typename other_underlying_name >
+	this_type & operator=(other_underlying_name const& other) {
+		statistics().increase(::counter::constant::operator_assign_other);
+		this->get() = other;
 		return *this;
 	}
 
