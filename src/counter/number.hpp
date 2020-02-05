@@ -47,6 +47,13 @@ namespace counter
          statistics().increase( ::counter::constant::construction_assign );
         }
 
+       template< typename other_underlying_name, typename other_class_name >
+        number( ::counter::number<other_underlying_name, other_class_name> const& that )
+         {
+          *this = that;
+          statistics().increase( ::counter::constant::construction_other_assign );
+         }
+
        ~number()
         {
          statistics().increase( ::counter::constant::destruction );

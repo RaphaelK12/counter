@@ -11,6 +11,7 @@ namespace counter
      {
        construction_blank
       ,construction_assign
+      ,construction_other_assign
       ,construction_underlying
       ,construction_other_underlying
       ,destruction
@@ -80,13 +81,13 @@ namespace counter
       ,_last
       };
 
-
       inline std::string const& to_string( int const& index )
        {
         static std::vector< std::string > s_name
          {
            "construction_blank"
           ,"construction_assign"
+          ,"construction_other_assign"
           ,"construction_underlying"
           ,"construction_other_underlying"
           ,"destruction"
